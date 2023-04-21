@@ -91,7 +91,7 @@ def main():
 
     tmplog='tmplog.txt'
     now = datetime.datetime.now()
-    with open(now.strftime('result_%d%m-%H%M%S.csv'), 'wt') as log:
+    with open(now.strftime('/data/result_%d%m-%H%M%S.csv'), 'wt') as log:
         cpu_info = cpuinfo.get_cpu_info()
         print('#CPU:', cpu_info['brand_raw'], file=log)
         print('#MEM:', psutil.virtual_memory().total, file=log)
