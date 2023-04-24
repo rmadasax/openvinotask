@@ -22,6 +22,7 @@ WORKDIR  /workspace/
 COPY auto_benchmark_app.py hello_query_device.py /workspace
 WORKDIR  /workspace
 RUN ls
-ENTRYPOINT [ "python3", "auto_benchmark_app.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-d GPU"]
+ENTRYPOINT [ "python3", "auto_benchmark_app.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-d CPU"]
+#ENTRYPOINT [ "python3", "auto_benchmark_app.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-d GPU"]
 #CMD [ "python3", "auto_benchmark_app.py -m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml -d GPU"]
 #CMD [ "python3", "hello_query_device.py"]
