@@ -6,6 +6,11 @@ USER root
 RUN apt update -y
 RUN apt install -y intel-opencl-icd intel-level-zero-gpu
 RUN apt install -y python3 python3-pip  git python3-opencv  python3-tk 
+RUN apt -y install \
+  intel-opencl-icd \
+  intel-level-zero-gpu level-zero \
+  intel-media-va-driver-non-free libmfx1
+
 RUN mkdir /workspace
 RUN mkdir /workspace/models
 RUN pip3 install psutil py-cpuinfo
