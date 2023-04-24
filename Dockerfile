@@ -19,8 +19,8 @@ WORKDIR  /workspace/models
 RUN omz_downloader --name road-segmentation-adas-0001
 
 WORKDIR  /workspace/
-RUN git clone --recurse-submodules https://github.com/openvinotoolkit/open_model_zoo.git
-RUN pip3 install -r ./open_model_zoo/demos/common/python/requirements.txt
+#RUN git clone --recurse-submodules https://github.com/openvinotoolkit/open_model_zoo.git
+#RUN pip3 install -r ./open_model_zoo/demos/common/python/requirements.txt
 
 WORKDIR  /workspace/
 COPY auto_benchmark_app.py hello_query_device.py /workspace
