@@ -11,8 +11,8 @@ RUN mkdir /workspace/models
 RUN pip3 install psutil py-cpuinfo
 #RUN apt install -y intel-opencl-icd
 WORKDIR  /workspace/models
-#RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
-RUN omz_downloader --name road-segmentation-adas-0001
+RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
+#RUN omz_downloader --name road-segmentation-adas-0001
 
 WORKDIR  /workspace/
 RUN git clone --recurse-submodules https://github.com/openvinotoolkit/open_model_zoo.git
