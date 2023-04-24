@@ -158,7 +158,7 @@ if __name__ == '__main__':
 	measured_times = []
 	idx = 0;
 	now = datetime.datetime.now();
-	with open(now.strftime('streams/result_%d%m-%H%M%S.csv'), 'wt') as log:
+	with open(now.strftime('data/result_%d%m-%H%M%S.csv'), 'wt') as log:
 	    dumpinfo(log)
 	    for precision in precisiona:
 	        for batch_size in batch_sizes:
