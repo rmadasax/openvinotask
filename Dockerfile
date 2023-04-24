@@ -8,7 +8,7 @@ RUN apt install -y python3 python3-pip  git python3-opencv  python3-tk
 RUN mkdir /workspace
 RUN mkdir /workspace/models
 RUN pip3 install psutil py-cpuinfo
-
+RUN apt install -y intel-opencl-icd
 WORKDIR  /workspace/models
 RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
 RUN omz_downloader --name road-segmentation-adas-0001
