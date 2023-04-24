@@ -1,5 +1,5 @@
 #FROM openvino/ubuntu20_dev:2022.3.0
-FROM openvino/ubuntu20_dev:latest-gpu
+FROM openvino/ubuntu20_data_dev:latest
 ARG DEBIAN_FRONTEND=noninteractive
 
 USER root
