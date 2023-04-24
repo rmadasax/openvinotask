@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 USER root
 
 RUN apt update -y
-RUN apt install -y intel-opencl-icd intel-gmmlib intel-level-zero-gpu
+RUN apt install -y intel-opencl-icd intel-level-zero-gpu
 RUN apt install -y python3 python3-pip  git python3-opencv  python3-tk 
 RUN mkdir /workspace
 RUN mkdir /workspace/models
