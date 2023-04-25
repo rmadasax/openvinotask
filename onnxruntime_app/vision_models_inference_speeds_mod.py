@@ -99,8 +99,8 @@ class OpenVinoTester:
 			executionProvider = 'CUDAExecutionProvider'
 		else:
 			executionProvider = 'OpenVINOExecutionProvider'
-			#device="CPU" if device=="cpu_openvino" else "GPU"
-			device="CPU" 
+			device="CPU" if device=="cpu_openvino" else "GPU"
+			#device="CPU" 
 			device = device + "_" +  precision
 
 		self.session = ort.InferenceSession( self.onnx_model_name, 
