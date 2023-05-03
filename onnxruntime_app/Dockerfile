@@ -24,4 +24,4 @@ RUN pip3 install torch==1.13.0+cu116 torchvision==0.14.0+cu116 -f https://downlo
 WORKDIR  /workspace/
 COPY config.json auto_benchmark_app.py vision_models_inference_speeds_mod.py  /workspace/
 WORKDIR  /workspace
-
+CMD [ "python3", "vision_models_inference_speeds_mod.py"]
