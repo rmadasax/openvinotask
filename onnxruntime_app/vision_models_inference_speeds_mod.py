@@ -46,61 +46,42 @@ def measure_duration(func):
 
 	return inner
 	
-class RandomImageDataset(IterableDataset):
-	def __init__(self, amount, img_size):
-		super(RandomImageDataset).__init__()
-		self.len = amount
-		self.img_size = img_size
-		self.images = []
-		for i in range(self.len):
-			image = np.random.randint(0, high=255, size=(800, 800, 3), dtype=int)
-			image = self._default_transform()(image)
-			image = image[np.newaxis, ...].numpy()
-
-			self.images.append(image)
-		
-	def _default_transform(self):
-		return transforms.Compose([
-			transforms.ToTensor(),
-			transforms.Resize(self.img_size),
-			transforms.ConvertImageDtype(torch.float),
-			transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
-		])
-	
-	def __iter__(self):
-		for i in range(self.len):
-			yield self.images[i]
-
-		
-	@staticmethod
-	def get_dataloader(img_amount, img_size, batch_size=10, num_workers=8):
-		random_dataset = RandomImageDataset(amount=img_amount, img_size=img_size)
-		return random_dataset #DataLoader(random_dataset, batch_size=batch_size, num_workers=num_workers)
 
 
 class OpenVinoTester:
-	def __init__(self, dataset, model: str, weight: str, model_name):
+	def __init__(self, dataset,batch, model: str, weight: str, model_name):
 		self.dataset = dataset
+		self.batch=batch
+		self.modelstr=model
+		self.modelname=model_name
 		self.model = f'torchvision.models.{model}(weights=torchvision.models.{weight}.DEFAULT)'
-		model = eval(self.model)
-		self.onnx_model_name = self.to_onnx(model, model_name)
+		#model = eval(self.model)
+		#self.onnx_model_name = self.to_onnx(model, self.batch, self.modelname)
 		
 
 	def run(self, device, precision="FP32"):
 		@measure_duration
 		def infer():            
-			for batch in self.dataset:
-				self.session.run( None, 
-								  { self.session.get_inputs()[0].name: batch } 
-								);
+			input_name = self.session.get_inputs()[0].name
+			print(self.batch)
+			ort_inputs = {input_name: np.random.randn(self.batch,3,224,224).astype(np.float32)}
+            #ort_inputs = {input_name: np.random.randn(1, 64).astype(np.float32)}for batch in self.dataset:
+			t = time.time() 
+			self.session.run( None, ort_inputs) 
+			print((time.time()- t)*1000) 
+            #for batch in self.dataset:
+			#self.session.run( None, 
+			#					  { self.session.get_inputs()[0].name: batch } 
+			#					);
 			   
 
+		model = eval(self.model)
+		self.onnx_model_name = self.to_onnx(model, self.batch, self.modelname)
 		if device == "cuda":
 			executionProvider = 'CUDAExecutionProvider'
 		else:
 			executionProvider = 'OpenVINOExecutionProvider'
 			device="CPU" if device=="cpu_openvino" else "GPU"
-			#device="CPU" 
 			device = device + "_" +  precision
 
 		self.session = ort.InferenceSession( self.onnx_model_name, 
@@ -115,12 +96,14 @@ class OpenVinoTester:
 		time_taken = infer()
 		return time_taken
 
-	def to_onnx(self, model, model_name):
+	def to_onnx(self, model, batch, model_name):
 		onnx_model_name = os.path.join("./models", model_name + '.onnx')
-		dummy_input = torch.randn(1, 3, 224, 224)
+		dummy_input = torch.randn(batch, 3, 224, 224)
+		dynamic_axes={'input' : {0 : 'batch_size'},'output' : {0 : 'batch_size'}}
 		torch.onnx.export(	model,
 							dummy_input,
 							onnx_model_name,
+							dynamic_axes=dynamic_axes,
 							export_params=True,
 							opset_version=11,         
 							do_constant_folding=True
@@ -159,14 +142,15 @@ if __name__ == '__main__':
 	measured_times = []
 	idx = 0;
 	now = datetime.datetime.now();
-	with open(now.strftime('/data/result_%d%m-%H%M%S.csv'), 'wt') as log:
+	with open(now.strftime('streams/result_%d%m-%H%M%S.csv'), 'wt') as log:
 	    dumpinfo(log)
 	    for precision in precisiona:
 	        for batch_size in batch_sizes:
 		        df = df.append(pd.Series(), ignore_index = True)
 		        title(f'batch_size : {batch_size}\t {precision}', level=0,file=log)
-
-		        dataloader = RandomImageDataset.get_dataloader(img_amount=batch_size, img_size=config['input_shape'][2])
+		        #print(batch_size)#=10
+		        #dataloader = RandomImageDataset.get_dataloader(img_amount=batch_size, img_size=config['input_shape'][2])
+		        dataloader= torch.randn(batch_size, 3, 224, 224)
 
 		        for model in models:
 			        category = model['category']
@@ -176,7 +160,7 @@ if __name__ == '__main__':
 				        df.loc[idx, 'model'] = model_name
 				        df.loc[idx, 'category'] = category
 				        title(f'{model_name}', level=1,file=log)
-				        tester = OpenVinoTester(dataset=dataloader, model=model['name'], weight=model['weights'], model_name=model_name)
+				        tester = OpenVinoTester(dataset=dataloader, batch=batch_size, model=model['name'], weight=model['weights'], model_name=model_name)
 				        for device in devices:
 					        title(f'{device}', 2, False, '',file=log)
 
