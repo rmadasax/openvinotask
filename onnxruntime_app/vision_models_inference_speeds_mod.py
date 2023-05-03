@@ -148,7 +148,7 @@ if __name__ == '__main__':
 	        for batch_size in batch_sizes:
 		        df = df.append(pd.Series(), ignore_index = True)
 		        title(f'batch_size : {batch_size}\t {precision}', level=0,file=log)
-		        #print(batch_size)#=10
+		        print(batch_size)#=10
 		        #dataloader = RandomImageDataset.get_dataloader(img_amount=batch_size, img_size=config['input_shape'][2])
 		        dataloader= torch.randn(batch_size, 3, 224, 224)
 
@@ -168,6 +168,7 @@ if __name__ == '__main__':
 						        infer_time = tester.run(device, precision)
 						        fps = batch_size/infer_time
 						        title(f'{infer_time*1000 : .2f} ms \t {fps : .2f} fps', 0, False,file=log)
+						        title(f'{infer_time*1000 : .2f} ms \t {fps : .2f} fps', 0, False)
 						        df.loc[idx, device] = infer_time
 
 					        except Exception as e:
