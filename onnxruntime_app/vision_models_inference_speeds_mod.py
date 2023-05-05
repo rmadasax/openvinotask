@@ -147,8 +147,8 @@ if __name__ == '__main__':
 	    for precision in precisiona:
 	        for batch_size in batch_sizes:
 		        df = df.append(pd.Series(), ignore_index = True)
-		        title(f'batch_size : {batch_size}\t {precision}', level=0,file=log)
-		        print(batch_size)#=10
+		        #title(f'batch_size : {batch_size}\t {precision}', level=0,file=log)
+		        #print(batch_size)#=10
 		        #dataloader = RandomImageDataset.get_dataloader(img_amount=batch_size, img_size=config['input_shape'][2])
 		        dataloader= torch.randn(batch_size, 3, 224, 224)
 
@@ -159,16 +159,18 @@ if __name__ == '__main__':
 				        df.loc[idx, 'batch_size'] = batch_size
 				        df.loc[idx, 'model'] = model_name
 				        df.loc[idx, 'category'] = category
-				        title(f'{model_name}', level=1,file=log)
+				        #title(f'{model_name}', level=1,file=log)
 				        tester = OpenVinoTester(dataset=dataloader, batch=batch_size, model=model['name'], weight=model['weights'], model_name=model_name)
 				        for device in devices:
-					        title(f'{device}', 2, False, '',file=log)
+					        #title(f'{device}', 2, False, '',file=log)
 
 					        try:
 						        infer_time = tester.run(device, precision)
 						        fps = batch_size/infer_time
-						        title(f'{infer_time*1000 : .2f} ms \t {fps : .2f} fps', 0, False,file=log)
-						        title(f'{infer_time*1000 : .2f} ms \t {fps : .2f} fps', 0, False)
+						        #title(f'{infer_time*1000 : .2f} ms \t {fps : .2f} fps', 0, False,file=log)
+						        #title(f'{batch_size} :batch \t {infer_time*1000 : .2f} :ms \t {fps : .2f} :fps \t {device} \t{model_name} :model \t {precision} :preci', 0, False,file=log)
+						        #title(f'{batch_size}:{infer_time*1000 : .2f}:{fps : .2f}:{model_name}:{precision}', 0, False,file=log)
+						        title(f'{device};{batch_size}:{infer_time*1000 : .2f}:{fps : .2f}:{model_name}:{precision}', 0, False,file=log)
 						        df.loc[idx, device] = infer_time
 
 					        except Exception as e:
