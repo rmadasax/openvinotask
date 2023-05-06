@@ -1,5 +1,5 @@
 {
-    "devices": ["cuda", "cpu_openvino", "gpu_openvino"],
+    "devices": ["cuda", "cpu_openvino"],
 
     "precision": ["FP16", "FP32"],
 
