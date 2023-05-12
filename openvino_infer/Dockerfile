@@ -27,6 +27,6 @@ COPY road.mp4 /workspace
 WORKDIR  /workspace
 RUN ls
 #ENTRYPOINT [ "python3", "auto_benchmark_app.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-d CPU"]
-ENTRYPOINT [ "python3", "open_model_zoo/demos/segmentation_demo/python/segmentation_demo.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-at segmentation -d GPU --loop -i road.mp4"]
+ENTRYPOINT [ "python3", "open_model_zoo/demos/segmentation_demo/python/segmentation_demo.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-at segmentation -d CPU --loop -i road.mp4"]
 #CMD [ "python3", "auto_benchmark_app.py -m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml -d GPU"]
 #CMD [ "python3", "hello_query_device.py"]
