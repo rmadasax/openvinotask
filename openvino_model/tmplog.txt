@@ -1,0 +1,11 @@
+[Step 1/11] Parsing and validating input arguments
+[Step 2/11] Loading OpenVINO Runtime
+[Step 3/11] Setting device configuration
+[Step 4/11] Reading model files
+[Step 5/11] Resizing model to match image sizes and given batch
+[Step 6/11] Configuring input of the model
+[Step 7/11] Loading the model to the device
+[Step 8/11] Querying optimal runtime parameters
+[Step 9/11] Creating infer requests and preparing input tensors
+[Step 10/11] Measuring performance (Start inference asynchronously, 6 inference requests, limits: 60000 ms duration)
+[Step 11/11] Dumping statistics report
