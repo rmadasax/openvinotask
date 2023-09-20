@@ -29,7 +29,7 @@ WORKDIR  /workspace/
 #RUN pip3 install -r ./open_model_zoo/demos/common/python/requirements.txt
 
 WORKDIR  /workspace/
-COPY models auto_benchmark_app.py hello_query_device.py /workspace
+COPY auto_benchmark_app.py hello_query_device.py /workspace
 WORKDIR  /workspace
 RUN ls
 #ENTRYPOINT [ "python3", "auto_benchmark_app.py", "-m models/intel/road-segmentation-adas-0001/FP32/road-segmentation-adas-0001.xml", "-d CPU"]
