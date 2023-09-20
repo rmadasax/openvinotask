@@ -17,10 +17,10 @@ RUN mkdir /workspace
 RUN mkdir /workspace/models
 RUN mkdir /workspace/models/yolov7-pose-qat
 RUN mkdir /workspace/models/yolov7-pose-qat/yolov7-fp16
+WORKDIR  /workspace/models/yolov7-pose-qat/yolov7-fp16
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.xml"]
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.bin"]
 RUN pip3 install psutil py-cpuinfo
-#WORKDIR  /workspace/models
 #RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
 #RUN omz_downloader --name road-segmentation-adas-0001
 
