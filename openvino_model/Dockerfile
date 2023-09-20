@@ -14,18 +14,17 @@ RUN apt -y install \
 RUN apt -y install wget
 
 RUN mkdir /workspace
-RUN mkdir /workspace/data
 RUN mkdir /workspace/models
 RUN mkdir /workspace/models/yolov7-pose-qat
 RUN mkdir /workspace/models/yolov7-pose-qat/yolov7-fp16
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.xml"]
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.bin"]
 RUN pip3 install psutil py-cpuinfo
-WORKDIR  /workspace/models
+#WORKDIR  /workspace/models
 #RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
 #RUN omz_downloader --name road-segmentation-adas-0001
 
-WORKDIR  /workspace/
+#WORKDIR  /workspace/
 #RUN git clone --recurse-submodules https://github.com/openvinotoolkit/open_model_zoo.git
 #RUN pip3 install -r ./open_model_zoo/demos/common/python/requirements.txt
 
