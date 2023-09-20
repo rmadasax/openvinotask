@@ -11,8 +11,14 @@ RUN apt -y install \
   intel-level-zero-gpu level-zero \
   intel-media-va-driver-non-free libmfx1
 
+RUN apt -y install wget
+
 RUN mkdir /workspace
 RUN mkdir /workspace/models
+RUN mkdir /workspace/models/yolov7-pose-qat
+RUN mkdir /workspace/models/yolov7-pose-qat/yolov7-fp16
+RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.xml"]
+RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.bin"]
 RUN pip3 install psutil py-cpuinfo
 WORKDIR  /workspace/models
 #RUN omz_downloader --name yolox-tiny && omz_converter --name yolox-tiny
