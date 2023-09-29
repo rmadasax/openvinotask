@@ -8,12 +8,14 @@ RUN apt update -y
 RUN apt install -y python3 python3-pip  git python3-opencv  python3-tk 
 
 RUN apt -y install wget
+RUN apt -y install ffmpeg
 
 RUN mkdir /workspace
 RUN mkdir /workspace/models
 RUN mkdir /workspace/models/yolov7-pose-qat
 RUN mkdir /workspace/models/yolov7-pose-qat/yolov7-fp16
 WORKDIR  /workspace/models/yolov7-pose-qat/yolov7-fp16
+RUN ["ffmpeg", "-h"]
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.xml"]
 RUN ["wget", "https://huggingface.co/LouisMM/yolov7-pose-qat/resolve/main/yolov7-fp16/model.bin"]
 RUN pip3 install psutil py-cpuinfo
